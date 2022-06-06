@@ -1,5 +1,6 @@
 using System.Net;
 using Api.Domain.Entities;
+using System.Threading.Tasks;
 using Api.Domain.Interfaces.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +10,11 @@ namespace Api.Application.Controllers
   [ApiController]
   public class UsersController : ControllerBase
   {
-    private IUserService _service;
+    public IUserService _service { get; set; }
     public UsersController(IUserService service)
     {
       _service = service;
     }
-
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
@@ -75,6 +75,48 @@ namespace Api.Application.Controllers
       catch (ArgumentException ex)
       {
         return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+      }
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> Put([FromBody] UserEntity user)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+      try
+      {
+        var result = await _service.Put(user);
+        if (result != null)
+        {
+          return Ok(result);
+        }
+        else
+        {
+          return BadRequest();
+        }
+      }
+      catch (ArgumentException e)
+      {
+        return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+      }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(Guid id)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+      try
+      {
+        return Ok(await _service.Delete(id));
+      }
+      catch (ArgumentException e)
+      {
+        return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
       }
     }
   }

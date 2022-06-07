@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace application
 {
@@ -29,9 +30,25 @@ namespace application
       ConfigureService.ConfigureDependenciesService(services);
       ConfigureRepository.ConfigureDependenciesRepository(services);
 
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+      services.AddControllers();
+      services.AddSwaggerGen(x =>
+      {
+        x.SwaggerDoc("v1",
+          new OpenApiInfo
+          {
+            Version = "V1",
+            Title = "Curso API - Projeto bea",
+            Description = "Arquitetura DDD",
+            TermsOfService = new Uri("https://github.com/bealou"),
+            Contact = new OpenApiContact
+            {
+              Name = "Beatriz Ramos Lourenço",
+              Email = "beatrizlourenco1912@gmail.com"
+            }
+            //aqui eu posso adicionar uma licença
+          });
+      });
     }
-
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
@@ -40,6 +57,12 @@ namespace application
         app.UseDeveloperExceptionPage();
       }
 
+      app.UseSwagger();
+      app.UseSwaggerUI(x =>
+      {
+        x.SwaggerEndpoint("/swagger/v1/swagger.json", "Curso API - ASP NET CORE com DDD");
+        x.RoutePrefix = string.Empty;
+      });
       app.UseRouting();
 
       app.UseAuthorization();

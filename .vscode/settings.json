@@ -2,5 +2,8 @@
   "files.autoSave": "onWindowChange",
   "cSpell.enableFiletypes": [
     "csharp"
+  ],
+  "cSpell.words": [
+    "Dtos"
   ]
 }

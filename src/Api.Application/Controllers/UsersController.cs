@@ -3,6 +3,7 @@ using Api.Domain.Entities;
 using System.Threading.Tasks;
 using Api.Domain.Interfaces.Services.User;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Application.Controllers
 {
@@ -15,6 +16,7 @@ namespace Api.Application.Controllers
     {
       _service = service;
     }
+    [Authorize("Bearer")]
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
@@ -36,6 +38,7 @@ namespace Api.Application.Controllers
     //localhost:5100/api/users/{id}
     [HttpGet]
     [Route("{id}", Name = "GetWithId")]
+    [Authorize("Bearer")]
     public async Task<ActionResult> Get(Guid id)
     {
       if (!ModelState.IsValid)
@@ -54,6 +57,7 @@ namespace Api.Application.Controllers
     }
 
     [HttpPost]
+    [Authorize("Bearer")]
     public async Task<ActionResult> Post([FromBody] UserEntity user)
     {
       if (!ModelState.IsValid)
@@ -79,6 +83,7 @@ namespace Api.Application.Controllers
     }
 
     [HttpPut]
+    [Authorize("Bearer")]
     public async Task<ActionResult> Put([FromBody] UserEntity user)
     {
       if (!ModelState.IsValid)
@@ -104,6 +109,7 @@ namespace Api.Application.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize("Bearer")]
     public async Task<ActionResult> Delete(Guid id)
     {
       if (!ModelState.IsValid)

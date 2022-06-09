@@ -91,7 +91,26 @@ namespace application
             }
             //aqui eu posso adicionar uma licença
           });
+        x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+          Description = "entre com o token jwt",
+          Name = "Auth",
+          In = ParameterLocation.Header,
+          Type = SecuritySchemeType.ApiKey
+        });
+
+        x.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        }, new List<string>()
+                    }
+                });
       });
+
     }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

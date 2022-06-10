@@ -30,14 +30,14 @@ namespace Api.Domain.Models
     public DateTime CreateAt
     {
       get { return _createAt; }
-      set { _createAt = value == null ? DateTime.UtcNow : value }
+      set { _createAt = value == null ? DateTime.UtcNow : value; }
     }
 
     private DateTime _updateAt;
     public DateTime UpdateAt
     {
       get { return _updateAt; }
-      set { _updateAt = value == null ? DateTime.UtcNow : value }
+      set { _updateAt = value == null ? DateTime.UtcNow : value; }
     }
 
   }

@@ -26,8 +26,7 @@ namespace Data.Migrations
                 name: "IX_User_Email",
                 table: "User",
                 column: "Email",
-                unique: true,
-                filter: "[Email] IS NOT NULL");
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

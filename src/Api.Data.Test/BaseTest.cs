@@ -1,8 +1,12 @@
+using System;
+using Api.Data.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Api.Data.Test;
 
-public abstract class UnitTest1
+public abstract class BaseTest
 {
   public BaseTest()
   {
@@ -14,7 +18,7 @@ public abstract class UnitTest1
     private string dataBaseName = $"dbApiTest_{Guid.NewGuid().ToString().Replace("-", string.Empty)}";
     public ServiceProvider ServiceProvider { get; private set; }
 
-    public DbTeste()
+    public DbTest()
     {
       var serviceCollection = new ServiceCollection();
       serviceCollection.AddDbContext<MyContext>(o =>
@@ -23,14 +27,14 @@ public abstract class UnitTest1
       );
 
       ServiceProvider = serviceCollection.BuildServiceProvider();
-      using (var context = ServiceProvider.GetService<Mycontext>())
+      using (var context = ServiceProvider.GetService<MyContext>())
       {
         context.Database.EnsureCreated();
       }
     }
     public void Dispose()
     {
-      using (var context = ServiceProvider.GetService<Mycontext>())
+      using (var context = ServiceProvider.GetService<MyContext>())
       {
         context.Database.EnsureDeleted();
       }

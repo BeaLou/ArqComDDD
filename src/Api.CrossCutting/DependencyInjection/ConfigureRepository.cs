@@ -1,3 +1,4 @@
+using System;
 using Api.Data.Context;
 using Api.Data.Implementations;
 using Api.Data.Repository;
@@ -13,8 +14,16 @@ namespace Api.CrossCutting.DependencyInjection
     public static void ConfigureDependenciesRepository(IServiceCollection serviceCollection)
     {
       serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-      serviceCollection.AddDbContext<MyContext>(options => options.UseMySql("Server=localhost;Port=3306;Database=dbarquiteturacomddd1;Uid=root;Pwd=1234"));
       serviceCollection.AddScoped<IUserRepository, UserImplementation>();
+
+      if (Environment.GetEnvironmentVariable("DATABASE").ToLower() == "SQLSERVER".ToLower())
+      {
+        serviceCollection.AddDbContext<MyContext>(options => options.UseMySql(Environment.GetEnvironmentVariable("Db_CONNECTION")));
+      }
+      else
+      {
+        serviceCollection.AddDbContext<MyContext>(options => options.UseMySql(Environment.GetEnvironmentVariable("Db_CONNECTION")));
+      }
     }
   }
 }

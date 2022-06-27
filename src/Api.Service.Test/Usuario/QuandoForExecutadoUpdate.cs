@@ -27,7 +27,7 @@ namespace Api.Service.Test.Usuario
       _service = _serviceMock.Object;
 
       var resultUpdate = await _service.Put(userDtoUpdate);
-      Assert.NotNull(result);
+      Assert.NotNull(resultUpdate);
       Assert.Equal(NomeUsuarioAlterado, resultUpdate.Name);
       Assert.Equal(EmailUsuarioAlterado, resultUpdate.Email);
     }

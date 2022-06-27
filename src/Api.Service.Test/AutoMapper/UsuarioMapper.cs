@@ -50,7 +50,7 @@ namespace Api.Service.Test.AutoMapper
       Assert.Equal(userDTO.Email, entity.Email);
       Assert.Equal(userDTO.CreateAt, entity.CreateAt);
 
-      var listUserDTO = Mapper.Map<List<UserDTO>>(entity);
+      var listUserDTO = Mapper.Map<List<UserDTO>>(listaEntity);
       Assert.True(listUserDTO.Count() == listaEntity.Count());
 
       for (int i = 0; i < listUserDTO.Count(); i++)

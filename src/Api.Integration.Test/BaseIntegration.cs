@@ -40,14 +40,14 @@ namespace Api.Integration.Test
 
     public async Task AdicionarToken()
     {
-      var loginDto = new LoginDto()
+      var loginDto = new LoginDTO()
       {
         Email = "bea@teste.com.br"
       };
 
       var resultLogin = await PostJsonAsync(loginDto, $"{hostApi}login", client);
       var jsonLogin = await resultLogin.Content.ReadAsStringAsync();
-      var loginObject = JsonConvert.DeserializeObject<LoginResponseDto>(jsonLogin);
+      var loginObject = JsonConvert.DeserializeObject<LoginResponseDTO>(jsonLogin);
 
       client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
                                                    loginObject.accessToken);

@@ -12,32 +12,31 @@ public abstract class BaseTest
   {
 
   }
+}
+public class DbTest : IDisposable
+{
+  private string dataBaseName = $"dbApiTest_{Guid.NewGuid().ToString().Replace("-", string.Empty)}";
+  public ServiceProvider ServiceProvider { get; private set; }
 
-  public class DbTest : IDisposable
+  public DbTest()
   {
-    private string dataBaseName = $"dbApiTest_{Guid.NewGuid().ToString().Replace("-", string.Empty)}";
-    public ServiceProvider ServiceProvider { get; private set; }
+    var serviceCollection = new ServiceCollection();
+    serviceCollection.AddDbContext<MyContext>(o =>
+        o.UseMySql($"Persist Security Info=True;Server=127.0.0.1;Database={dataBaseName};User=root;Password=1234;"),
+        ServiceLifetime.Transient
+    );
 
-    public DbTest()
+    ServiceProvider = serviceCollection.BuildServiceProvider();
+    using (var context = ServiceProvider.GetService<MyContext>())
     {
-      var serviceCollection = new ServiceCollection();
-      serviceCollection.AddDbContext<MyContext>(o =>
-          o.UseMySql($"Persist Security Info=True;Server=127.0.0.1;Database={dataBaseName};User=root;Password=1234;"),
-          ServiceLifetime.Transient
-      );
-
-      ServiceProvider = serviceCollection.BuildServiceProvider();
-      using (var context = ServiceProvider.GetService<MyContext>())
-      {
-        context.Database.EnsureCreated();
-      }
+      context.Database.EnsureCreated();
     }
-    public void Dispose()
+  }
+  public void Dispose()
+  {
+    using (var context = ServiceProvider.GetService<MyContext>())
     {
-      using (var context = ServiceProvider.GetService<MyContext>())
-      {
-        context.Database.EnsureDeleted();
-      }
+      context.Database.EnsureDeleted();
     }
   }
 }

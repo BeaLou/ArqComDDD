@@ -6,7 +6,6 @@ using Api.Data.Implementations;
 using Api.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using static Api.Data.Test.BaseTest;
 
 namespace Api.Data.Test
 {

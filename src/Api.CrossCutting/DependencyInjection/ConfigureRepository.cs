@@ -15,6 +15,9 @@ namespace Api.CrossCutting.DependencyInjection
     {
       serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
       serviceCollection.AddScoped<IUserRepository, UserImplementation>();
+      serviceCollection.AddScoped<ICepRepository, CepImplementation>();
+      serviceCollection.AddScoped<IMunicipioRepository, MunicipioImplementation>();
+      serviceCollection.AddScoped<IUfRepository, UfImplementation>();
 
       if (Environment.GetEnvironmentVariable("DATABASE").ToLower() == "SQLSERVER".ToLower())
       {

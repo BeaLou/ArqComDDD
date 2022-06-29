@@ -57,8 +57,8 @@ namespace Api.Application.Controllers
       }
     }
 
+    [AllowAnonymous]
     [HttpPost]
-    [Authorize("Bearer")]
     public async Task<ActionResult> Post([FromBody] UserDTOCreate user)
     {
       if (!ModelState.IsValid)
